@@ -23,11 +23,7 @@ def get_user(user_id):
 @app.route('/users', methods=['POST'])
 def create_user():
     new_user = request.json
-    print(new_user['name'])
     User.add_user(new_user['name'])
-    # print(new_user)
-    # new_user['id'] = len(users) + 1
-    # users.append(new_user)
     return jsonify(new_user), 201
 
 
@@ -66,5 +62,4 @@ def get_comments():
 
 
 if __name__ == '__main__':
-    print(users)
     app.run(debug=True)

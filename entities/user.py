@@ -8,8 +8,8 @@ class User:
 
     def to_dict(self):
         return {
-            'id':self.id,
-            'name':self.name,
+            'id': self.id,
+            'name': self.name,
         }
 
     @staticmethod
@@ -17,3 +17,5 @@ class User:
         _id = len(users) + 1
         user = User(_id, name)
         users.append(user.to_dict())
+
+
