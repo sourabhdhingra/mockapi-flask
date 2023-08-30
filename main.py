@@ -63,6 +63,12 @@ def create_post():
     return jsonify(new_post), 201
 
 
+@app.route('/posts/<int:post_id>', methods=['GET'])
+def get_post(post_id):
+    post = next((post for post in posts if post['id'] == post_id), None)
+    return jsonify(post) if post else ('Post not found', 404)
+
+
 @app.route('/posts/<int:post_id>', methods=['POST'])
 def update_post(post_id):
     new_post = request.json
