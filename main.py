@@ -58,7 +58,6 @@ def create_post():
     user = next((user for user in users if user['id'] == new_post['userid']), None)
     if not user:
         return 'User not found', 404
-    # return jsonify(user) if user else ('User not found', 404)
     Post.add_post(new_post)
     return jsonify(new_post), 201
 
@@ -100,6 +99,17 @@ def get_comments():
 
 
 # Add similar routes for creating, updating, and deleting comments
+@app.route('/comments', methods=['POST'])
+def create_comment():
+    new_comment = request.json
+    user = next((user for user in users if user['id'] == new_comment['userid']), None)
+    if not user:
+        return 'User not found', 404
+    post = next((post for post in posts if post['id'] == new_comment['post_id']), None)
+    if not post:
+        return 'Post not found', 404
+    Comment.add_comment(new_comment)
+    return jsonify(request.json)
 
 
 if __name__ == '__main__':

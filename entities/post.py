@@ -19,9 +19,12 @@ class Post:
         }
 
     @classmethod
+    def from_dict(cls, dict_obj):
+        return Post(dict_obj['id'], dict_obj['userid'], dict_obj['title'], dict_obj['content'])
+
+    @classmethod
     def add_post(cls, post_json):
         cls.id_counter = cls.id_counter + 1
         _id = cls.id_counter
-        print(_id, post_json['userid'], post_json['title'], post_json['content'])
         post = Post(_id, post_json['userid'], post_json['title'], post_json['content'])
         posts.append(post.to_dict())
