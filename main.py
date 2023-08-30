@@ -78,6 +78,15 @@ def update_post(post_id):
     return jsonify(post)
 
 
+@app.route('/posts/<int:post_id>', methods=['DELETE'])
+def delete_post(post_id):
+    post = next((post for post in posts if post['id'] == post_id), None)
+    if not post:
+        return 'Post not found', 404
+    posts.remove(post)
+    return '', 204
+
+
 # Comment CRUD operations
 @app.route('/comments', methods=['GET'])
 def get_comments():
