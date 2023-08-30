@@ -98,6 +98,12 @@ def get_comments():
     return jsonify(comments)
 
 
+@app.route('/comments/<int:comment_id>', methods=['GET'])
+def get_comment(comment_id):
+    comment = next((comment for comment in comments if comment['id'] == comment_id), None)
+    return jsonify(comment) if comment else ('Comment Not Found', 404)
+
+
 # Add similar routes for creating, updating, and deleting comments
 @app.route('/comments', methods=['POST'])
 def create_comment():
