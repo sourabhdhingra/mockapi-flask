@@ -50,13 +50,39 @@ def delete_user(user_id):
 def get_posts():
     return jsonify(posts)
 
+
 # Add similar routes for creating, updating, and deleting posts
+@app.route('/posts', methods=['POST'])
+def create_post():
+    new_post = request.json
+    user = next((user for user in users if user['id'] == new_post['userid']), None)
+    if not user:
+        return 'User not found', 404
+    # return jsonify(user) if user else ('User not found', 404)
+    Post.add_post(new_post)
+    return jsonify(new_post), 201
+
+
+@app.route('/posts/<int:post_id>', methods=['POST'])
+def update_post(post_id):
+    new_post = request.json
+    post = next((post for post in posts if post['id'] == post_id), None)
+    if not post:
+        return 'Post not found', 404
+    if post['userid'] != new_post['userid']:
+        return 'Invalid userid', 400
+    user = next((user for user in users if user['id'] == new_post['userid']), None)
+    if not user:
+        return 'User not found', 404
+    post.update(request.json)
+    return jsonify(post)
 
 
 # Comment CRUD operations
 @app.route('/comments', methods=['GET'])
 def get_comments():
     return jsonify(comments)
+
 
 # Add similar routes for creating, updating, and deleting comments
 
