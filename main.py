@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-from entities import user
 from entities.mockdata import users, posts, comments
 from entities.user import User
 from entities.post import Post
@@ -123,8 +122,6 @@ def update_comment(comment_id):
         return 'Comment not found', 404
     if comment['userid'] != new_comment['userid']:
         return 'Invalid userid', 400
-    # print(comment)
-    # print(new_comment['post_id'])
     if comment['post_id'] != new_comment['post_id']:
         return 'Invalid post_id', 400
     user = next((user for user in users if user['id'] == new_comment['userid']), None)
@@ -147,4 +144,7 @@ def delete_comment(comment_id):
 
 
 if __name__ == '__main__':
+    # populate_data(users, posts, comments)
     app.run(debug=True)
+
+

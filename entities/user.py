@@ -1,8 +1,16 @@
-from .mockdata import users
+from entities.mockdata import users
+
+
+def find_max(key, items):
+    return max([item[key] for item in items])
 
 
 class User:
     id_counter = 0
+
+    @classmethod
+    def set_id_counter(cls, val):
+        cls.id_counter = val
 
     def __init__(self, id, name):
         self.id = id
@@ -20,17 +28,9 @@ class User:
 
     @classmethod
     def add_user(cls, name):
+        cls.set_id_counter(find_max('id', users))
         cls.id_counter = cls.id_counter + 1
         _id = cls.id_counter
         user = User(_id, name)
         users.append(user.to_dict())
         return user.to_dict()
-
-
-
-
-
-
-
-
-
