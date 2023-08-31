@@ -68,7 +68,7 @@ def get_post(post_id):
     return jsonify(post) if post else ('Post not found', 404)
 
 
-@app.route('/posts/<int:post_id>', methods=['POST'])
+@app.route('/posts/<int:post_id>', methods=['PUT'])
 def update_post(post_id):
     new_post = request.json
     post = next((post for post in posts if post['id'] == post_id), None)
@@ -116,6 +116,37 @@ def create_comment():
         return 'Post not found', 404
     Comment.add_comment(new_comment)
     return jsonify(request.json)
+
+
+@app.route('/comments/<int:comment_id>', methods=['PUT'])
+def update_comment(comment_id):
+    new_comment = request.json
+    comment = next((comment for comment in comments if comment['id'] == comment_id), None)
+    if not comment:
+        return 'Comment not found', 404
+    if comment['userid'] != new_comment['userid']:
+        return 'Invalid userid', 400
+    # print(comment)
+    # print(new_comment['post_id'])
+    if comment['post_id'] != new_comment['post_id']:
+        return 'Invalid post_id', 400
+    user = next((user for user in users if user['id'] == new_comment['userid']), None)
+    if not user:
+        return 'User not found', 404
+    post = next((post for post in posts if post['id'] == new_comment['post_id']), None)
+    if not post:
+        return 'Post not found', 404
+    comment.update(request.json)
+    return jsonify(comment)
+
+
+@app.route('/comments/<int:comment_id>', methods=['DELETE'])
+def delete_comment(comment_id):
+    comment = next((comment for comment in comments if comment['id'] == comment_id), None)
+    if not comment:
+        return 'Comment not found', 404
+    comments.remove(comment)
+    return '', 204
 
 
 if __name__ == '__main__':
