@@ -28,3 +28,4 @@ class Post:
         _id = cls.id_counter
         post = Post(_id, post_json['userid'], post_json['title'], post_json['content'])
         posts.append(post.to_dict())
+        return post.to_dict()

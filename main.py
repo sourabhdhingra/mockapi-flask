@@ -23,8 +23,7 @@ def get_user(user_id):
 @app.route('/users', methods=['POST'])
 def create_user():
     new_user = request.json
-    User.add_user(new_user['name'])
-    return jsonify(new_user), 201
+    return jsonify(User.add_user(new_user['name'])), 201
 
 
 @app.route('/users/<int:user_id>', methods=['PUT'])
@@ -58,8 +57,7 @@ def create_post():
     user = next((user for user in users if user['id'] == new_post['userid']), None)
     if not user:
         return 'User not found', 404
-    Post.add_post(new_post)
-    return jsonify(new_post), 201
+    return jsonify(Post.add_post(new_post)), 201
 
 
 @app.route('/posts/<int:post_id>', methods=['GET'])
@@ -114,8 +112,7 @@ def create_comment():
     post = next((post for post in posts if post['id'] == new_comment['post_id']), None)
     if not post:
         return 'Post not found', 404
-    Comment.add_comment(new_comment)
-    return jsonify(request.json)
+    return jsonify(Comment.add_comment(new_comment))
 
 
 @app.route('/comments/<int:comment_id>', methods=['PUT'])

@@ -28,3 +28,4 @@ class Comment:
         _id = cls.id_counter
         comment = Comment(_id, comment_json['userid'], comment_json['post_id'], comment_json['content'])
         comments.append(comment.to_dict())
+        return comment.to_dict()

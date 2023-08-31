@@ -24,6 +24,7 @@ class User:
         _id = cls.id_counter
         user = User(_id, name)
         users.append(user.to_dict())
+        return user.to_dict()
 
 
 
